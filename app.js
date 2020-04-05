@@ -44,10 +44,54 @@ const buildTeam = () => {
 
 }
 const addIntern = () => {
-
+    inquirer
+        .prompt ([
+            {
+                type: "input",
+                message: "Itern's Name",
+                name: "name",
+            },
+            {
+                type: "input",
+                message: "Intern's ID",
+                name: "id",
+            },
+            {
+                type: "input",
+                message: "Intern's email",
+                name: "email",
+            },
+            {
+                type: "input",
+                message: "Intern's school",
+                name: "school",
+            },
+        ])
 }
 const addEngineer = () => {
-
+    inquirer
+        .prompt ([
+            {
+                type: "input",
+                message: "Engineer's Name",
+                name: "name",
+            },
+            {
+                type: "input",
+                message: "Engineer's ID",
+                name: "id",
+            },
+            {
+                type: "input",
+                message: "Engineer's email",
+                name: "email",
+            },
+            {
+                type: "input",
+                message: "Engineer's GitHub",
+                name: "github",
+            }
+        ])
 }
 const html = render(renderArray);
 
