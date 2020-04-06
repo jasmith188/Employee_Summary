@@ -73,7 +73,7 @@ function officePage() {
                     }
                 }
             ])
-            .then(answer => {
+            .then(answers => {
                 const manager = new Manager(answers.name, answers.id, answers.email, answers.office);
                 officeMembers.push(manager);
                 renderArray.push(answers.id);
@@ -172,8 +172,9 @@ function officePage() {
 
                 }]
             )
-            .then(answer => {
-                const manager = new Manager(answers.name, answers.id, answers.email, answers.office);
+            .then(answers => {
+                const manager = new Intern(answers.name, answers.id, answers.email, answers.office);
+                officeMembers.push(intern);
                 renderArray.push(answers.id);
                 createTeam();
             });
@@ -234,18 +235,15 @@ function officePage() {
                 }
             ])
             .then(answer => {
-                try {
-                    renderArray.push(new Engineer(answers.name, answers.id, answers.email, answers.github))
-                    createTeam()
-                }
-                catch (err) {
-                }
-            })
+                const manager = new Engineer(answers.name, answers.id, answers.email, answers.github);
+                renderArray.push(answers.id);
+                createTeam();
+            });
     }
-    // function buildTeam() {
-    //     fs.writeFile("", html, err => {
-    //         const html = render(renderArray);
-    //     })
+    function buildTeam() {
+        fs.writeFile("", html, err => {
+            const html = render(renderArray);
+        })
     createManager();
 }
 
