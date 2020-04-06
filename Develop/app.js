@@ -22,21 +22,54 @@ function officePage() {
                     type: "input",
                     message: "What is the employee's name",
                     name: "name",
+                    validate: answer => {
+                        if (answer === "") {
+                            return "Enter employee's name";
+                        }
+                        return true;
+                    }
                 },
                 {
                     type: "input",
                     message: "What is the Employee's ID",
                     name: "ID",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /^[1-9]\d*$/
+                        );
+                        if (pass) {
+                            return "Enter Employee's ID";
+                        }
+                        return true
+                    }
                 },
                 {
                     type: "input",
                     message: "What is the employe's Email",
                     name: "email",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /\S+@\S+\.\S+/
+                        );
+                        if (answer === "") {
+                            return "Enter Employee's email";
+                        }
+                        return true
+                    }
                 },
                 {
                     type: "input",
                     message: "Manager's Office Number",
                     name: "office",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /^[1-9]\d*$/
+                        );
+                        if (answer === "") {
+                            return "Enter Employee's Office Number";
+                        }
+                        return true
+                    }
                 }
             ])
             .then(answer => {
@@ -157,7 +190,7 @@ function buildTeam() {
 }
 }
 
-officePage()
+officePage();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
