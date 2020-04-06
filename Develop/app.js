@@ -74,7 +74,7 @@ function officePage() {
             ])
             .then(answer => {
                 try {
-                    renderArray.push(new Manager(answer.name, answer.id, answer.email, answer.office))
+                    renderArray.push(new Manager(answers.name, answers.id, answers.email, answers.office))
                     createTeam()
                 }
                 catch (err) {
@@ -212,16 +212,31 @@ function addEngineer() {
                 type: "input",
                 message: "Engineer's email",
                 name: "email",
+                validate: answer => {
+                    const pass = answer.match(
+                        /\S+@\S+\.\S+/
+                    );
+                    if (answer === "") {
+                        return "Enter Engineer's email";
+                    }
+                    return true
+                }
             },
             {
                 type: "input",
                 message: "Engineer's GitHub",
                 name: "github",
+                validate: answer => {
+                    if (answer === "") {
+                        return "Enter Engineer's GitHub account name";
+                        }
+                        return true;
+                }
             }
         ])
         .then(answer => {
             try {
-                renderArray.push(new Engineer(answer.name, answer.id, answer.email, answer.github))
+                renderArray.push(new Engineer(answers.name, answers.id, answers.email, answers.github))
                 createTeam()
             }
             catch (err) {
