@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output")
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const officeMembers = [];
 const renderArray = [];
 
 //create team ofor office
@@ -38,9 +39,9 @@ function officePage() {
                             /^[1-9]\d*$/
                         );
                         if (pass) {
-                            return "Enter Employee's ID";
+                            return true;
                         }
-                        return true
+                        return "Enter Employee's ID"
                     }
                 },
                 {
@@ -73,14 +74,15 @@ function officePage() {
                 }
             ])
             .then(answer => {
-                try {
-                    renderArray.push(new Manager(answers.name, answers.id, answers.email, answers.office))
-                    createTeam()
-                }
-                catch (err) {
-                }
-            })
+                const manager = new Manager(answers.name, answers.id, answers.email, answers.office);
+                officeMembers.push(manager);
+                renderArray.push(answers.id);
+                createTeam();
+
+
+            });
     }
+
     function createTeam() {
 
         inquirer
@@ -125,8 +127,8 @@ function officePage() {
                     validate: answer => {
                         if (answer === "") {
                             return "Enter Itern's name";
-                            }
-                            return true;
+                        }
+                        return true;
                     }
                 },
                 {
@@ -169,86 +171,84 @@ function officePage() {
                     }
 
                 }]
-            ).then(answers => {
-                    try {
-                        console.log(answers);
-                        renderArray.push(new Intern(answers.name, answers.id, answers.email, answers.school))
-                        createTeam()
-                    }
-                    catch (err) {
-                    }
-                })
+            )
+            .then(answer => {
+                const manager = new Manager(answers.name, answers.id, answers.email, answers.office);
+                renderArray.push(answers.id);
+                createTeam();
+            });
     }
 
-function addEngineer() {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Engineer's Name",
-                name: "name",
-                validate: answer => {
-                    if (answer === "") {
-                        return "Enter Engineer's name";
+    function addEngineer() {
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "Engineer's Name",
+                    name: "name",
+                    validate: answer => {
+                        if (answer === "") {
+                            return "Enter Engineer's name";
                         }
                         return true;
-                }
-            },
-            {
-                type: "input",
-                message: "Engineer's ID",
-                name: "id",
-                validate: answer => {
-                    const pass = answer.match(
-                        /^[1-9]\d*$/
-                    );
-                    if (pass) {
-                        return "Enter Engineer's ID";
                     }
-                    return true
-                }
-            },
-            {
-                type: "input",
-                message: "Engineer's email",
-                name: "email",
-                validate: answer => {
-                    const pass = answer.match(
-                        /\S+@\S+\.\S+/
-                    );
-                    if (answer === "") {
-                        return "Enter Engineer's email";
+                },
+                {
+                    type: "input",
+                    message: "Engineer's ID",
+                    name: "id",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /^[1-9]\d*$/
+                        );
+                        if (pass) {
+                            return "Enter Engineer's ID";
+                        }
+                        return true
                     }
-                    return true
-                }
-            },
-            {
-                type: "input",
-                message: "Engineer's GitHub",
-                name: "github",
-                validate: answer => {
-                    if (answer === "") {
-                        return "Enter Engineer's GitHub account name";
+                },
+                {
+                    type: "input",
+                    message: "Engineer's email",
+                    name: "email",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /\S+@\S+\.\S+/
+                        );
+                        if (answer === "") {
+                            return "Enter Engineer's email";
+                        }
+                        return true
+                    }
+                },
+                {
+                    type: "input",
+                    message: "Engineer's GitHub",
+                    name: "github",
+                    validate: answer => {
+                        if (answer === "") {
+                            return "Enter Engineer's GitHub account name";
                         }
                         return true;
+                    }
                 }
-            }
-        ])
-        .then(answer => {
-            try {
-                renderArray.push(new Engineer(answers.name, answers.id, answers.email, answers.github))
-                createTeam()
-            }
-            catch (err) {
-            }
-        })
+            ])
+            .then(answer => {
+                try {
+                    renderArray.push(new Engineer(answers.name, answers.id, answers.email, answers.github))
+                    createTeam()
+                }
+                catch (err) {
+                }
+            })
+    }
+    // function buildTeam() {
+    //     fs.writeFile("", html, err => {
+    //         const html = render(renderArray);
+    //     })
+    createManager();
 }
-function buildTeam() {
-    fs.writeFile("", html, err => {
-        const html = render(renderArray);
-    })
-}
-}
+
 
 officePage();
 
