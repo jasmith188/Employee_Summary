@@ -14,7 +14,7 @@ const renderArray = [];
 //create team ofor office
 function officePage() {
 
-    function addManager() {
+    function createManager() {
         console.log("Build your team");
         inquirer
             .prompt([
@@ -90,7 +90,7 @@ function officePage() {
                     message: "What is the employee's position",
                     name: "employeeChoice",
                     choices: [
-                        "manager",
+                        "Manager",
                         "Intern",
                         "Engineer",
                     ]
@@ -99,16 +99,16 @@ function officePage() {
             ])
             .then(answer => {
                 switch (answer.employeeChoice) {
-                    case "Manager":
-                        addManager();
+                    case "Engineer":
+                        addEngineer();
                         break;
 
                     case "Intern":
                         addIntern();
                         break
 
-                    case "Engineer":
-                        addEngineer();
+                    default:
+                        buildTeam();
                         break
                 }
             })
@@ -121,22 +121,52 @@ function officePage() {
                 {
                     type: "input",
                     message: "Itern's Name",
-                    name: "name"
+                    name: "name",
+                    validate: answer => {
+                        if (answer === "") {
+                            return "Enter Itern's name";
+                            }
+                            return true;
+                    }
                 },
                 {
                     type: "input",
                     message: "Intern's ID",
-                    name: "id"
+                    name: "id",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /^[1-9]\d*$/
+                        );
+                        if (pass) {
+                            return "Enter Intern's ID";
+                        }
+                        return true
+                    }
                 },
                 {
                     type: "input",
                     message: "Intern's email",
-                    name: "email"
+                    name: "email",
+                    validate: answer => {
+                        const pass = answer.match(
+                            /\S+@\S+\.\S+/
+                        );
+                        if (answer === "") {
+                            return "Enter Intern's email";
+                        }
+                        return true
+                    }
                 },
                 {
                     type: "input",
                     message: "Intern's school",
-                    name: "school"
+                    name: "school",
+                    validate: answer => {
+                        if (answer === "") {
+                            return "Enter Intern's School";
+                        }
+                        return true;
+                    }
 
                 }]
             ).then(answers => {
@@ -157,11 +187,26 @@ function addEngineer() {
                 type: "input",
                 message: "Engineer's Name",
                 name: "name",
+                validate: answer => {
+                    if (answer === "") {
+                        return "Enter Engineer's name";
+                        }
+                        return true;
+                }
             },
             {
                 type: "input",
                 message: "Engineer's ID",
                 name: "id",
+                validate: answer => {
+                    const pass = answer.match(
+                        /^[1-9]\d*$/
+                    );
+                    if (pass) {
+                        return "Enter Engineer's ID";
+                    }
+                    return true
+                }
             },
             {
                 type: "input",
