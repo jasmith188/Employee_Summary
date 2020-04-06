@@ -9,8 +9,8 @@ const OUTPUT_DIR = path.resolve(__dirname, "output")
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./Develop/lib/htmlRenderer");
-
 const renderArray = [];
+
 //create team ofor office
 const createTeam = () => {
     inquirer
@@ -25,106 +25,131 @@ const createTeam = () => {
                     "Engineer",
                 ]
 
-            }     
-       ])
-       .then(userChoice => {
-           switch (userChoice.employeeChoice) {
-               case "Manager":
-               addManager();
-               break;
+            }
+        ])
+        .then(answer => {
+            switch (answer.employeeChoice) {
+                case "Manager":
+                    addManager();
+                    break;
 
-               case "Intern":
-                addIntern();
-                break
+                case "Intern":
+                    addIntern();
+                    break
 
                 case "Engineer":
-                addEngineer();
-                break
-           }
-       })
-const addTeamMember = () => {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "What is the employee's name",
-                name: "name",
-            },
-            {
-                type: "input",
-                message: "What is the Employee's ID",
-                name: "ID",
-            },
-            {
-                type: "input",
-                message: "What is the employe's Email",
-                name: "email",
-            },
-            {
-                type: "input",
-                message: "Manager's Office Number",
-                name: "Office Number",
+                    addEngineer();
+                    break
             }
-        ])
+        })
+    const addTeamMember = () => {
+        inquirer
+            .prompt([
+                {
+                    type: "input",
+                    message: "What is the employee's name",
+                    name: "name",
+                },
+                {
+                    type: "input",
+                    message: "What is the Employee's ID",
+                    name: "ID",
+                },
+                {
+                    type: "input",
+                    message: "What is the employe's Email",
+                    name: "email",
+                },
+                {
+                    type: "input",
+                    message: "Manager's Office Number",
+                    name: "office",
+                }
+            ])
+            .then(answer => {
+                try {
+                    renderArray.push(new Manager(answer.name, answer.id, answer.email, answer.office))
+                    reset()
+                }
+                catch (err) {
+                }
+            })
+
+        const addIntern = () => {
+            inquirer
+                .prompt([
+                    {
+                        type: "input",
+                        message: "Itern's Name",
+                        name: "name",
+                    },
+                    {
+                        type: "input",
+                        message: "Intern's ID",
+                        name: "id",
+                    },
+                    {
+                        type: "input",
+                        message: "Intern's email",
+                        name: "email",
+                    },
+                    {
+                        type: "input",
+                        message: "Intern's school",
+                        name: "school",
+                    },
+                ])
+                .then(answer => {
+                    try {
+                        renderArray.push(new Intern(answer.name, answer.id, answer.email, answer.school))
+                        reset()
+                    }
+                    catch (err) {
+                    }
+                })
+        }
+        const addEngineer = () => {
+            inquirer
+                .prompt([
+                    {
+                        type: "input",
+                        message: "Engineer's Name",
+                        name: "name",
+                    },
+                    {
+                        type: "input",
+                        message: "Engineer's ID",
+                        name: "id",
+                    },
+                    {
+                        type: "input",
+                        message: "Engineer's email",
+                        name: "email",
+                    },
+                    {
+                        type: "input",
+                        message: "Engineer's GitHub",
+                        name: "github",
+                    }
+                ])
+                .then(answer => {
+                    try {
+                        renderArray.push(new Engineer(answer.name, answer.id, answer.email, answer.github))
+                        reset()
+                    }
+                    catch (err) {
+                    }
+                })
+        }
+        const buildTeam = () => {
+            fs.writeFile("", html, err => {
+                const html = render(renderArray);
+            })
+        }
+    }
 }
 
-const addIntern = () => {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Itern's Name",
-                name: "name",
-            },
-            {
-                type: "input",
-                message: "Intern's ID",
-                name: "id",
-            },
-            {
-                type: "input",
-                message: "Intern's email",
-                name: "email",
-            },
-            {
-                type: "input",
-                message: "Intern's school",
-                name: "school",
-            },
-        ])
-}
-const addEngineer = () => {
-    inquirer
-        .prompt([
-            {
-                type: "input",
-                message: "Engineer's Name",
-                name: "name",
-            },
-            {
-                type: "input",
-                message: "Engineer's ID",
-                name: "id",
-            },
-            {
-                type: "input",
-                message: "Engineer's email",
-                name: "email",
-            },
-            {
-                type: "input",
-                message: "Engineer's GitHub",
-                name: "github",
-            }
-        ])
-}
-const buildTeam = () => {
 
-}
-const html = render(renderArray);
-fs.writeFile("", html, err => {
-
-})
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -147,4 +172,4 @@ fs.writeFile("", html, err => {
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an 
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work!```
+// for the provided `render` function to work!
