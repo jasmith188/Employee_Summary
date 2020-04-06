@@ -10,42 +10,67 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./Develop/lib/htmlRenderer");
 
-const allEmployees = [];
-
+const renderArray = [];
+//create team ofor office
 const createTeam = () => {
     inquirer
         .prompt([
             {
+                type: "list",
+                message: "What is the employee's position",
+                name: "employeeChoice",
+                choices: [
+                    "manager",
+                    "Intern",
+                    "Engineer",
+                ]
+
+            }     
+       ])
+       .then(userChoice => {
+           switch (userChoice.employeeChoice) {
+               case "Manager":
+               addManager();
+               break;
+
+               case "Intern":
+                addIntern();
+                break
+
+                case "Engineer":
+                addEngineer();
+                break
+           }
+       })
+const addTeamMember = () => {
+    inquirer
+        .prompt([
+            {
                 type: "input",
-                message: "Manager's Name",
+                message: "What is the employee's name",
                 name: "name",
             },
             {
                 type: "input",
-                message: "Manager's ID",
+                message: "What is the Employee's ID",
                 name: "ID",
             },
             {
                 type: "input",
-                message: "Manager's Email",
+                message: "What is the employe's Email",
                 name: "email",
             },
             {
                 type: "input",
-                message: "Manger's Office Number",
+                message: "Manager's Office Number",
                 name: "Office Number",
             }
         ])
 }
-const addTeamMember = () => {
 
-}
-const buildTeam = () => {
-
-}
 const addIntern = () => {
     inquirer
-        .prompt ([
+        .prompt([
             {
                 type: "input",
                 message: "Itern's Name",
@@ -70,7 +95,7 @@ const addIntern = () => {
 }
 const addEngineer = () => {
     inquirer
-        .prompt ([
+        .prompt([
             {
                 type: "input",
                 message: "Engineer's Name",
@@ -93,8 +118,10 @@ const addEngineer = () => {
             }
         ])
 }
-const html = render(renderArray);
+const buildTeam = () => {
 
+}
+const html = render(renderArray);
 fs.writeFile("", html, err => {
 
 })
