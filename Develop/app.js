@@ -9,10 +9,13 @@ const OUTPUT_DIR = path.resolve(__dirname, "output")
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+
+
 const officeMembers = [];
 const renderArray = [];
 
-//create team ofor office
+
+//create team page for office
 function officePage() {
 
     function createManager() {
@@ -92,9 +95,9 @@ function officePage() {
                     message: "What is the employee's position",
                     name: "employeeChoice",
                     choices: [
-                        "Manager",
                         "Intern",
                         "Engineer",
+                        "None",
                     ]
 
                 }
@@ -140,9 +143,9 @@ function officePage() {
                             /^[1-9]\d*$/
                         );
                         if (pass) {
-                            return "Enter Intern's ID";
+                            return true;
                         }
-                        return true
+                        return "Enter Intern's ID";
                     }
                 },
                 {
@@ -156,7 +159,7 @@ function officePage() {
                         if (answer === "") {
                             return "Enter Intern's email";
                         }
-                        return true
+                        return true;
                     }
                 },
                 {
@@ -173,7 +176,7 @@ function officePage() {
                 }]
             )
             .then(answers => {
-                const manager = new Intern(answers.name, answers.id, answers.email, answers.office);
+                const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
                 officeMembers.push(intern);
                 renderArray.push(answers.id);
                 createTeam();
@@ -203,9 +206,9 @@ function officePage() {
                             /^[1-9]\d*$/
                         );
                         if (pass) {
-                            return "Enter Engineer's ID";
+                            return true;
                         }
-                        return true
+                        return "Enter Engineer's ID";
                     }
                 },
                 {
@@ -219,7 +222,7 @@ function officePage() {
                         if (answer === "") {
                             return "Enter Engineer's email";
                         }
-                        return true
+                        return true;
                     }
                 },
                 {
@@ -234,18 +237,21 @@ function officePage() {
                     }
                 }
             ])
-            .then(answer => {
-                const manager = new Engineer(answers.name, answers.id, answers.email, answers.github);
+            .then(answers => {
+                const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+                officeMembers.push(engineer);
                 renderArray.push(answers.id);
                 createTeam();
             });
     }
     function buildTeam() {
-        fs.writeFile("", html, err => {
-            const html = render(renderArray);
-        })
+        fs.writeFile("output/team.html",(officeMembers));
+        if (err) throw err;
+    }
     createManager();
 }
+
+
 
 
 officePage();
