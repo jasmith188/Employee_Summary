@@ -244,7 +244,7 @@ function officePage() {
                 createTeam();
             });
     }
-    const officeMembers = () => {
+    const buildTeam = () => {
         //add all of the info into the html page
         fs.writeFile(outputPath, render(officeMembers), err => {
             if (err) {
@@ -253,13 +253,13 @@ function officePage() {
             return console.log("sucess");
 
         })
-        createManager();
+        
     }
-
+    createManager();
 }
 
 
-    officePage();
+officePage();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
